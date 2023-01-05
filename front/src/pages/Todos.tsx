@@ -1,16 +1,16 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseAxios } from "../api";
+import { baseAxios, deleteTodo } from "../api";
 import TodoItem from "./TodoItem";
-import { createTodo, getTodos } from "../TodosApi";
-// import { createTodo } from "../TodosApi";
+import { createTodo, getTodos } from "../api";
 
 export interface todo {
   title?: string;
   content?: string;
-  isCompleted?: boolean;
-  id?: string;
+  id: string;
   children?: string;
+  onClick?: () => {};
+  onDelete(): void;
 }
 
 function Todos() {
@@ -18,12 +18,19 @@ function Todos() {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentsRef = useRef<HTMLInputElement>(null);
   const [todolist, setTodolist] = useState<todo[]>([]);
+
   // get
   useEffect(() => {
     getTodos().then((res) => {
-      setTodolist(res.data.data);
+      const data: todo[] = res.data.data;
+      setTodolist(data);
     });
-  }, [onsubmit]);
+  }, []);
+  // delete
+  const onDelete = (id: string) => {
+    setTodolist((prev) => prev.filter((todo) => todo.id != id));
+    deleteTodo(id);
+  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -47,7 +54,6 @@ function Todos() {
         .then((res) => {
           return res.data.data;
         });
-
       setTodolist([...todolist, newTodo]);
       titleRef.current!.value = "";
       contentsRef.current!.value = "";
@@ -68,7 +74,13 @@ function Todos() {
       </form>
       <ul>
         {todolist.map((todo) => {
-          return <TodoItem key={todo.id} {...todo}></TodoItem>;
+          return (
+            <TodoItem
+              key={todo.id}
+              {...todo}
+              onDelete={() => onDelete(todo.id)}
+            ></TodoItem>
+          );
         })}
       </ul>
     </div>
