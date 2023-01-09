@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import tw from "tailwind-styled-components";
+import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
+import Container from "@mui/material/Container";
+import styled from "styled-components";
+import TextField from "@mui/material/TextField";
 
 interface formData {
   email: string;
@@ -48,28 +51,38 @@ function Login() {
   };
 
   return (
-    <Container>
+    <Container maxWidth="sm">
       <Link to="/auth/signup">
         <p>회원가입</p>
       </Link>
-      <form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit}>
         <h1>로그인</h1>
-        <label htmlFor="id">아이디</label>
-        <input name="id" type="text" maxLength={15} onChange={handleId} />
-        <label htmlFor="password">비밀번호</label>
-        <input type="password" minLength={8} onChange={handlePassword} />
-        <button>로그인</button>
-      </form>
+        <TextField
+          id="standard-basic"
+          label="이메일"
+          variant="standard"
+          inputProps={{ maxlength: 15 }}
+          onChange={handleId}
+        />
+        <TextField
+          id="standard-basic"
+          label="비밀번호"
+          variant="standard"
+          inputProps={{ minlength: 8 }}
+          type="password"
+          onChange={handlePassword}
+        />
+        <Button variant="contained" type="submit">
+          로그인
+        </Button>
+      </Form>
     </Container>
   );
 }
 
 export default Login;
 
-const Container = tw.div`
-w-full
-flex
-flex-col
-justify-center
-items-center
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
 `;

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
+import Button from "@mui/material/Button";
 import { todo } from "./Todos";
-import { deleteTodo } from "../api";
 
 function TodoItem({ content, title, id, onDelete }: todo) {
   const handleDelete = useCallback(() => {
@@ -11,7 +11,9 @@ function TodoItem({ content, title, id, onDelete }: todo) {
     <li>
       <div>제목 : {title}</div>
       <span>컨텐츠 : {content}</span>
-      <button onClick={handleDelete}>삭제</button>
+      <Button variant="outlined" onClick={handleDelete}>
+        삭제
+      </Button>
       {/* <button onClick={}>수정</button> */}
     </li>
   );

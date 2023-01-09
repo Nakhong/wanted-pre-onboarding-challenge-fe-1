@@ -1,8 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseAxios, deleteTodo } from "../api";
+import { baseAxios, deleteTodo, getTodos, createTodo } from "../api";
 import TodoItem from "./TodoItem";
-import { createTodo, getTodos } from "../api";
+import Container from "@mui/material/Container";
+import styled from "styled-components";
 
 export interface todo {
   title?: string;
@@ -28,7 +29,7 @@ function Todos() {
   }, []);
   // delete
   const onDelete = (id: string) => {
-    setTodolist((prev) => prev.filter((todo) => todo.id != id));
+    setTodolist((prev) => prev.filter((todo) => todo.id !== id));
     deleteTodo(id);
   };
 
@@ -62,7 +63,7 @@ function Todos() {
   );
 
   return (
-    <div>
+    <Container maxWidth="sm">
       <div>
         <h1>Todo List</h1>
         <button onClick={handleLogout}>로그아웃</button>
@@ -83,7 +84,7 @@ function Todos() {
           );
         })}
       </ul>
-    </div>
+    </Container>
   );
 }
 

@@ -2,6 +2,10 @@ import React, { useCallback, useState } from "react";
 import tw from "tailwind-styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import styled from "styled-components";
 
 interface SignUpData {
   email: string;
@@ -65,20 +69,35 @@ function SignUp() {
   };
 
   return (
-    <Container>
+    <Container maxWidth="sm">
       <Link to="/auth/login">
         <p>로그인</p>
       </Link>
       <Form onSubmit={onSubmit}>
         <h1>회원가입</h1>
-        <label htmlFor="id">이메일</label>
-        <input name="id" type="text" onChange={handleId} />
+        <TextField
+          id="standard-basic"
+          label="이메일"
+          variant="standard"
+          onChange={handleId}
+        />
         {email.length > 0 && <span>{emailMessage}</span>}
-        <label htmlFor="password">비밀번호</label>
-        <input type="password" minLength={8} onChange={handlePassword} />
-        <label htmlFor="password">비밀번호 확인</label>
-        <input type="password" minLength={8} onChange={handleConfirmPassword} />
-        <button>회원가입</button>
+        <TextField
+          id="standard-basic"
+          label="비밀번호"
+          variant="standard"
+          inputProps={{ minlength: 8 }}
+          onChange={handlePassword}
+        />
+        <TextField
+          id="standard-basic"
+          label="비밀번호 확인"
+          variant="standard"
+          inputProps={{ minlength: 8 }}
+          onChange={handleConfirmPassword}
+        />
+        {/* <input name="id" type="text" onChange={handleId} /> */}
+        <Button variant="contained">회원가입</Button>
       </Form>
     </Container>
   );
@@ -86,15 +105,7 @@ function SignUp() {
 
 export default SignUp;
 
-const Container = tw.div`
-flex
-flex-col
-justify-center
-items-center
-`;
-
-const Form = tw.form`
-flex
-flex-col
-w-[150px]
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
 `;
