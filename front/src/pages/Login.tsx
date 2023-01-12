@@ -61,7 +61,7 @@ function Login() {
           id="standard-basic"
           label="이메일"
           variant="standard"
-          inputProps={{ maxlength: 15 }}
+          inputProps={{ maxlength: 30 }}
           onChange={handleId}
         />
         <TextField

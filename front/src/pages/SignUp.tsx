@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
-
+import { emailRegex } from "../util/Regex";
 interface SignUpData {
   email: string;
   password: string;
@@ -45,9 +45,7 @@ function SignUp() {
     [email, password, confirmPassword]
   );
 
-  const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const emailRegex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCur = e.target.value;
     setEmail(emailCur);
 
@@ -79,13 +77,14 @@ function SignUp() {
           id="standard-basic"
           label="이메일"
           variant="standard"
-          onChange={handleId}
+          onChange={handleEmail}
         />
         {email.length > 0 && <span>{emailMessage}</span>}
         <TextField
           id="standard-basic"
           label="비밀번호"
           variant="standard"
+          type="password"
           inputProps={{ minlength: 8 }}
           onChange={handlePassword}
         />
@@ -93,6 +92,7 @@ function SignUp() {
           id="standard-basic"
           label="비밀번호 확인"
           variant="standard"
+          type="password"
           inputProps={{ minlength: 8 }}
           onChange={handleConfirmPassword}
         />
