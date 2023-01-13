@@ -67,7 +67,7 @@ function SignUp() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <>
       <Link to="/auth/login">
         <p>로그인</p>
       </Link>
@@ -96,10 +96,11 @@ function SignUp() {
           inputProps={{ minlength: 8 }}
           onChange={handleConfirmPassword}
         />
-        {/* <input name="id" type="text" onChange={handleId} /> */}
-        <Button variant="contained">회원가입</Button>
+        <Button variant="contained" type="submit">
+          회원가입
+        </Button>
       </Form>
-    </Container>
+    </>
   );
 }
 

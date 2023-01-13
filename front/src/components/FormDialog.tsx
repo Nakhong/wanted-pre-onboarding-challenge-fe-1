@@ -8,9 +8,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { baseAxios, Todo } from "../api";
 
 export default function FormDialog(props: any) {
-  const titleRef = useRef<HTMLInputElement>(null);
-  const contentsRef = useRef<HTMLInputElement>(null);
+  let titleRef = useRef<HTMLInputElement>(null);
+  const contentsRef = useRef<HTMLInputElement>(props.content);
   const [open, setOpen] = useState(false);
+  // const [edits, setEdits] = useState<boolean>(false);
   const id = props.id;
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,30 +32,18 @@ export default function FormDialog(props: any) {
       }
       await props.onUpdate(todo);
       setOpen(false);
+      props.setEdit(true);
     },
-    [updateTodos]
+    [props.onUpdate, props.todoItem]
   );
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  async function updateTodos(data: any) {
-    const total = { title: data.title, content: data.content };
-    return await baseAxios.put(`/todos/${data.id}`, total, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-  }
-
-  // const handlePost = async () => {
-  //   setFormTitle(titleRef.current!.value);
-  //   setFormContent(contentsRef.current!.value);
-  //   const data: any = { id: props.id, title: FormTitle, content: FormContent };
-  //   await updateTodos(data);
-  //   setOpen(false);
-  // };
+  const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(props.title);
+  };
 
   return (
     <div>
@@ -67,6 +56,7 @@ export default function FormDialog(props: any) {
           <form onSubmit={handleSubmit}>
             <TextField
               inputRef={titleRef}
+              // onChange={handleValue}
               autoFocus
               margin="dense"
               id="title"

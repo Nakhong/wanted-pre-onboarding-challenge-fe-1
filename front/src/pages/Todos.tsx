@@ -1,25 +1,17 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  baseAxios,
-  deleteTodo,
-  getTodos,
-  createTodo,
-  updateTodos,
-} from "../api";
-import TodoItem from "./TodoItem";
+import { baseAxios, deleteTodo, getTodos, updateTodos } from "../api";
+import TodoItem from "../components/TodoItem";
 import Container from "@mui/material/Container";
-import FormDialog from "../components/FormDialog";
 
 export interface todo {
   title?: string;
   content?: string;
   id: string;
-  children?: string;
-  onClick?: () => {};
   onDelete(): void;
   onUpdate: (data: any) => void;
   todoList?: any;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Todos() {
@@ -27,6 +19,14 @@ function Todos() {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentsRef = useRef<HTMLInputElement>(null);
   const [todolist, setTodolist] = useState<todo[]>([]);
+  const [edit, setEdit] = useState<boolean>(true);
+  const token = localStorage.getItem("token");
+
+  // useEffect(() => {
+  //   if (!token) {
+  //     window.location.href = "/auth/login";
+  //   }
+  // }, []);
 
   // get
   useEffect(() => {
@@ -34,7 +34,7 @@ function Todos() {
       const data: todo[] = res.data.data;
       setTodolist(data);
     });
-  }, []);
+  }, [edit]);
 
   // delete
   const onDelete = (id: string) => {
@@ -72,16 +72,12 @@ function Todos() {
   );
 
   // update
-  const onUpdate = useCallback((todo: any) => {
-    setTodolist((prev: any) =>
-      prev.map((item: any) => (item.id === todo.id ? { ...item, todo } : item))
+  const onUpdate = useCallback((todo: todo) => {
+    setTodolist((prev: todo[]) =>
+      prev.map((item: todo) => (item.id === todo.id ? { ...item, todo } : item))
     );
+    setEdit(!edit);
     updateTodos(todo);
-    // 서버 요청을 한번 더 보내야지 수정이 된다 ..??
-    getTodos().then((res) => {
-      const data: todo[] = res.data.data;
-      setTodolist(data);
-    });
   }, []);
 
   return (
@@ -101,10 +97,11 @@ function Todos() {
             <div>
               <TodoItem
                 key={todo.id}
-                todoList={todo}
                 {...todo}
+                todoList={todo}
                 onDelete={() => onDelete(todo.id)}
                 onUpdate={onUpdate}
+                setEdit={setEdit}
               ></TodoItem>
             </div>
           );

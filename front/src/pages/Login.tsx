@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
-import Container from "@mui/material/Container";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 
@@ -33,7 +32,7 @@ function Login() {
         .post("/users/login", Data)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
-          nav("/todos");
+          nav("/");
         })
         .catch((e) => {
           alert(e.response.data.details);
@@ -51,7 +50,7 @@ function Login() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <>
       <Link to="/auth/signup">
         <p>회원가입</p>
       </Link>
@@ -76,7 +75,7 @@ function Login() {
           로그인
         </Button>
       </Form>
-    </Container>
+    </>
   );
 }
 

@@ -1,10 +1,18 @@
 import React, { useCallback, useState } from "react";
 import Button from "@mui/material/Button";
-import { todo } from "./Todos";
-import FormDialog from "../components/FormDialog";
+import { todo } from "../pages/Todos";
+import FormDialog from "./FormDialog";
 import styled from "styled-components";
 
-function TodoItem({ content, title, id, onDelete, onUpdate, todoList }: todo) {
+function TodoItem({
+  content,
+  title,
+  id,
+  onDelete,
+  onUpdate,
+  todoList,
+  setEdit,
+}: todo) {
   const handleDelete = useCallback(() => {
     onDelete();
   }, [id, onDelete]);
@@ -24,6 +32,7 @@ function TodoItem({ content, title, id, onDelete, onUpdate, todoList }: todo) {
             content={content}
             onUpdate={onUpdate}
             todoItem={todoList}
+            setEdit={setEdit}
           />
         </ButtonCon>
       </li>
