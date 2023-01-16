@@ -7,10 +7,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
 import { emailRegex } from "../util/Regex";
-interface SignUpData {
-  email: string;
-  password: string;
-}
+import { formData } from "../types/type";
 
 function SignUp() {
   const nav = useNavigate();
@@ -28,7 +25,7 @@ function SignUp() {
       if (password !== confirmPassword) {
         alert("비밀번호가 일치하지 않습니다");
       }
-      const Data: SignUpData = {
+      const Data: formData = {
         email: email,
         password: password,
       };

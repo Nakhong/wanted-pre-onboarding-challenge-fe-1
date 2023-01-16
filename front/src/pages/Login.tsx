@@ -4,11 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
-
-interface formData {
-  email: string;
-  password: string;
-}
+import { formData } from "../types/type";
 
 function Login() {
   const nav = useNavigate();
