@@ -12,15 +12,11 @@ function SignUp() {
   const nav = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [checkEmail, setCheckEmail] = useState<boolean>(false);
 
   const onSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (password !== confirmPassword) {
-        alert("비밀번호가 일치하지 않습니다");
-      }
       const Data: formData = {
         email: email,
         password: password,
@@ -29,13 +25,13 @@ function SignUp() {
         .post(`users/create`, Data)
         .then((res) => {
           alert(res.data.message);
-          nav("/login");
+          nav("/auth/login");
         })
         .catch((e) => {
           alert(e.response.data.details);
         });
     },
-    [email, password, confirmPassword]
+    [email, password]
   );
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,10 +47,6 @@ function SignUp() {
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-  };
-
-  const handleConfirmPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
   };
 
   return (
@@ -81,15 +73,6 @@ function SignUp() {
           type="password"
           inputProps={{ minlength: 8 }}
           onChange={handlePassword}
-        />
-        <TextField
-          fullWidth
-          id="standard-basic"
-          label="비밀번호 확인"
-          variant="standard"
-          type="password"
-          inputProps={{ minlength: 8 }}
-          onChange={handleConfirmPassword}
         />
         <Button fullWidth variant="contained" type="submit">
           회원가입
