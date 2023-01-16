@@ -5,13 +5,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { baseAxios, Todo } from "../api";
+import { todoItems } from "../types/type";
 
 export default function FormDialog(props: any) {
+  const [todoTitle, setTitle] = useState(props.title);
+  const [todoContent, setContent] = useState(props.content);
   let titleRef = useRef<HTMLInputElement>(null);
-  const contentsRef = useRef<HTMLInputElement>(props.content);
+  const contentsRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
-  // const [edits, setEdits] = useState<boolean>(false);
   const id = props.id;
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,29 +21,31 @@ export default function FormDialog(props: any) {
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const title = titleRef.current!.value;
-      const content = contentsRef.current!.value;
+      const titleTodo = titleRef.current!.value;
+      const contentTodo = contentsRef.current!.value;
       const todo = {
         id,
-        title,
-        content,
+        title: titleTodo,
+        content: contentTodo,
       };
-      if (!todo) {
-        return;
-      }
       await props.onUpdate(todo);
       setOpen(false);
       props.setEdit(true);
     },
-    [props.onUpdate, props.todoItem]
+    [props.onUpdate]
   );
 
   const handleClose = () => {
     setOpen(false);
+    setTitle(props.title);
+    setContent(props.content);
   };
 
-  const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(props.title);
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+  const handleContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
   };
 
   return (
@@ -56,7 +59,8 @@ export default function FormDialog(props: any) {
           <form onSubmit={handleSubmit}>
             <TextField
               inputRef={titleRef}
-              // onChange={handleValue}
+              value={todoTitle}
+              onChange={handleTitle}
               autoFocus
               margin="dense"
               id="title"
@@ -67,6 +71,8 @@ export default function FormDialog(props: any) {
             />
             <TextField
               inputRef={contentsRef}
+              value={todoContent}
+              onChange={handleContent}
               autoFocus
               margin="dense"
               id="content"
