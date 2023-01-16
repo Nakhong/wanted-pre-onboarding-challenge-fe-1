@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 import Button from "@mui/material/Button";
-import { todo } from "../pages/Todos";
-import FormDialog from "./FormDialog";
 import styled from "styled-components";
+import FormDialog from "./FormDialog";
+import { todoItems } from "../types/type";
 
 function TodoItem({
   content,
@@ -12,9 +12,11 @@ function TodoItem({
   onUpdate,
   todoList,
   setEdit,
-}: todo) {
+}: todoItems) {
   const handleDelete = useCallback(() => {
-    onDelete();
+    if (window.confirm("정말 삭제 하시겠습니까 ?")) {
+      onDelete(id);
+    }
   }, [id, onDelete]);
 
   return (
@@ -31,7 +33,8 @@ function TodoItem({
             title={title}
             content={content}
             onUpdate={onUpdate}
-            todoItem={todoList}
+            todoList={todoList}
+            onDelete={onDelete}
             setEdit={setEdit}
           />
         </ButtonCon>
@@ -41,7 +44,6 @@ function TodoItem({
 }
 
 export default TodoItem;
-//  수정하기 누르면 모달로 input 2개 나오고 수정하기 누르면
 
 const ButtonCon = styled.div`
   display: flex;

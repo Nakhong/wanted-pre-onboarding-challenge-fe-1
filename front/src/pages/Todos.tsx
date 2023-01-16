@@ -1,37 +1,21 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseAxios, deleteTodo, getTodos, updateTodos } from "../api";
+import { createTodo, deleteTodo, getTodos, updateTodos } from "../api";
 import TodoItem from "../components/TodoItem";
 import Container from "@mui/material/Container";
-
-export interface todo {
-  title?: string;
-  content?: string;
-  id: string;
-  onDelete(): void;
-  onUpdate: (data: any) => void;
-  todoList?: any;
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { Todo, todoItems } from "../types/type";
 
 function Todos() {
   const nav = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentsRef = useRef<HTMLInputElement>(null);
-  const [todolist, setTodolist] = useState<todo[]>([]);
+  const [todolist, setTodolist] = useState<todoItems[]>([]);
   const [edit, setEdit] = useState<boolean>(true);
-  const token = localStorage.getItem("token");
-
-  // useEffect(() => {
-  //   if (!token) {
-  //     window.location.href = "/auth/login";
-  //   }
-  // }, []);
 
   // get
   useEffect(() => {
     getTodos().then((res) => {
-      const data: todo[] = res.data.data;
+      const data: todoItems[] = res.data.data;
       setTodolist(data);
     });
   }, [edit]);
@@ -54,17 +38,10 @@ function Todos() {
       const title = titleRef.current!.value;
       const content = contentsRef.current!.value;
       const data = { title, content };
-
-      const newTodo: todo = await baseAxios
-        .post("/todos", data, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          return res.data.data;
-        });
-      setTodolist([...todolist, newTodo]);
+      await createTodo(data).then((res) => {
+        const newTodo = res.data.data;
+        setTodolist([...todolist, newTodo]);
+      });
       titleRef.current!.value = "";
       contentsRef.current!.value = "";
     },
@@ -72,9 +49,11 @@ function Todos() {
   );
 
   // update
-  const onUpdate = useCallback((todo: todo) => {
-    setTodolist((prev: todo[]) =>
-      prev.map((item: todo) => (item.id === todo.id ? { ...item, todo } : item))
+  const onUpdate = useCallback((todo: Todo) => {
+    setTodolist((prev: todoItems[]) =>
+      prev.map((item: todoItems) =>
+        item.id === todo.id ? { ...item, todo } : item
+      )
     );
     setEdit(!edit);
     updateTodos(todo);
@@ -99,7 +78,7 @@ function Todos() {
                 key={todo.id}
                 {...todo}
                 todoList={todo}
-                onDelete={() => onDelete(todo.id)}
+                onDelete={onDelete}
                 onUpdate={onUpdate}
                 setEdit={setEdit}
               ></TodoItem>
