@@ -2,27 +2,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
-import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import { formData } from "../types/type";
+import { Container, Form, LinkStyle } from "../styles/FormStyled";
 
 function Login() {
   const nav = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      nav("/todos");
-    }
-  });
-
   const onSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const Data: formData = {
-        email: email,
-        password: password,
+        email,
+        password,
       };
       await baseAxios
         .post("/users/login", Data)
@@ -46,13 +40,11 @@ function Login() {
   };
 
   return (
-    <>
-      <Link to="/auth/signup">
-        <p>회원가입</p>
-      </Link>
+    <Container>
       <Form onSubmit={onSubmit}>
         <h1>로그인</h1>
         <TextField
+          fullWidth
           id="standard-basic"
           label="이메일"
           variant="standard"
@@ -60,6 +52,7 @@ function Login() {
           onChange={handleId}
         />
         <TextField
+          fullWidth
           id="standard-basic"
           label="비밀번호"
           variant="standard"
@@ -67,17 +60,15 @@ function Login() {
           type="password"
           onChange={handlePassword}
         />
-        <Button variant="contained" type="submit">
+        <Button fullWidth variant="contained" type="submit">
           로그인
         </Button>
+        <LinkStyle to="/auth/signup">
+          <p>회원가입</p>
+        </LinkStyle>
       </Form>
-    </>
+    </Container>
   );
 }
 
 export default Login;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-`;

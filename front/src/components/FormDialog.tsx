@@ -35,6 +35,12 @@ export default function FormDialog(props: any) {
     [props.onUpdate]
   );
 
+  const handleDelete = useCallback(() => {
+    if (window.confirm("정말 삭제 하시겠습니까 ?")) {
+      props.onDelete(id);
+    }
+  }, [id, props.onDelete]);
+
   const handleClose = () => {
     setOpen(false);
     setTitle(props.title);
@@ -51,7 +57,7 @@ export default function FormDialog(props: any) {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        수정
+        자세히 보기
       </Button>
       <Dialog open={open} onClose={handleSubmit}>
         <DialogTitle>오늘 할 일</DialogTitle>
@@ -82,8 +88,9 @@ export default function FormDialog(props: any) {
               variant="standard"
             />
             <DialogActions>
-              <Button onClick={handleClose}>취소</Button>
               <Button type="submit">수정하기</Button>
+              <Button onClick={handleDelete}>삭제하기</Button>
+              <Button onClick={handleClose}>취소</Button>
             </DialogActions>
           </form>
         </DialogContent>

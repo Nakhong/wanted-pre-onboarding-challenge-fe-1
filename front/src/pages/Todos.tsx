@@ -2,8 +2,11 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTodo, deleteTodo, getTodos, updateTodos } from "../api";
 import TodoItem from "../components/TodoItem";
-import Container from "@mui/material/Container";
 import { Todo, todoItems } from "../types/type";
+import styled from "styled-components";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { Form } from "../styles/FormStyled";
 
 function Todos() {
   const nav = useNavigate();
@@ -28,7 +31,7 @@ function Todos() {
 
   const handleLogout = () => {
     localStorage.clear();
-    nav("/");
+    nav("/auth/login");
   };
 
   // post
@@ -60,17 +63,39 @@ function Todos() {
   }, []);
 
   return (
-    <Container maxWidth="sm">
+    <Container>
       <div>
         <h1>Todo List</h1>
-        <button onClick={handleLogout}>로그아웃</button>
+        <Button fullWidth onClick={handleLogout}>
+          로그아웃
+        </Button>
       </div>
-      <form onSubmit={onSubmit}>
-        <input ref={titleRef} type="text" id="todoInput" placeholder="할일" />
-        <input type="text" placeholder="자세한 내용" ref={contentsRef} />
-        <button type="submit">추가</button>
-      </form>
-      <ul>
+      <Form onSubmit={onSubmit}>
+        <TextField
+          inputRef={titleRef}
+          autoFocus
+          margin="dense"
+          id="content"
+          label="할일"
+          type="text"
+          fullWidth
+          variant="standard"
+        />
+        <TextField
+          inputRef={contentsRef}
+          autoFocus
+          margin="dense"
+          id="content"
+          label="자세한 내용"
+          type="text"
+          fullWidth
+          variant="standard"
+        />
+        {/* <input ref={titleRef} type="text" id="todoInput" placeholder="할일" />
+        <input type="text" placeholder="자세한 내용" ref={contentsRef} /> */}
+        <Button type="submit">추가</Button>
+      </Form>
+      <Ul>
         {todolist.map((todo) => {
           return (
             <div>
@@ -85,9 +110,23 @@ function Todos() {
             </div>
           );
         })}
-      </ul>
+      </Ul>
     </Container>
   );
 }
 
 export default Todos;
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Ul = styled.ul`
+  width: 500px;
+  padding: 0;
+  list-style: none;
+`;

@@ -19,5 +19,4 @@ const Main = styled.main`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  min-height: 50vh;
 `;

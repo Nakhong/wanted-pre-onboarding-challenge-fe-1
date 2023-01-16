@@ -13,21 +13,13 @@ function TodoItem({
   todoList,
   setEdit,
 }: todoItems) {
-  const handleDelete = useCallback(() => {
-    if (window.confirm("정말 삭제 하시겠습니까 ?")) {
-      onDelete(id);
-    }
-  }, [id, onDelete]);
-
   return (
-    <div>
-      <li>
-        <div>할일 : {title}</div>
-        <ButtonCon>
-          <span>자세한 내용 : {content}</span>
-          <Button variant="outlined" onClick={handleDelete}>
-            삭제
-          </Button>
+    <Container>
+      <Li>
+        <div>
+          <span>{title}</span>
+        </div>
+        <div>
           <FormDialog
             id={id}
             title={title}
@@ -37,14 +29,28 @@ function TodoItem({
             onDelete={onDelete}
             setEdit={setEdit}
           />
-        </ButtonCon>
-      </li>
-    </div>
+        </div>
+      </Li>
+    </Container>
   );
 }
 
 export default TodoItem;
 
-const ButtonCon = styled.div`
+const Container = styled.div`
+  width: 100%;
   display: flex;
+`;
+
+const Li = styled.li`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 10px 20px;
+  margin-bottom: 5px;
+  border: 0.5px solid #c1d7f3;
+  border-radius: 20px;
+  color: #c1d7f3;
+  font-weight: bold;
+  line-height: 35px;
 `;

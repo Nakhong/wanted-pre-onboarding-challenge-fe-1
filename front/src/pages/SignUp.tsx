@@ -1,23 +1,19 @@
 import React, { useCallback, useState } from "react";
-import tw from "tailwind-styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
-import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
 import { emailRegex } from "../util/Regex";
 import { formData } from "../types/type";
+import { Container, Form, LinkStyle } from "../styles/FormStyled";
 
 function SignUp() {
   const nav = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-
   const [checkEmail, setCheckEmail] = useState<boolean>(false);
-
-  const [emailMessage, setEmailMessage] = useState<string>("");
 
   const onSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -47,10 +43,8 @@ function SignUp() {
     setEmail(emailCur);
 
     if (!emailRegex.test(emailCur)) {
-      setEmailMessage("올바른 이메일 형식이 아닙니다!");
       setCheckEmail(false);
     } else {
-      setEmailMessage("올바른 형식입니다.");
       setCheckEmail(true);
     }
   };
@@ -64,20 +58,23 @@ function SignUp() {
   };
 
   return (
-    <>
-      <Link to="/auth/login">
-        <p>로그인</p>
-      </Link>
+    <Container>
       <Form onSubmit={onSubmit}>
         <h1>회원가입</h1>
         <TextField
+          fullWidth
           id="standard-basic"
           label="이메일"
           variant="standard"
           onChange={handleEmail}
         />
-        {email.length > 0 && <span>{emailMessage}</span>}
+        {email.length > 0 && (
+          <ErrorSpan>
+            {checkEmail === true ? "" : "올바른 이메일 형식이 아닙니다!"}
+          </ErrorSpan>
+        )}
         <TextField
+          fullWidth
           id="standard-basic"
           label="비밀번호"
           variant="standard"
@@ -86,6 +83,7 @@ function SignUp() {
           onChange={handlePassword}
         />
         <TextField
+          fullWidth
           id="standard-basic"
           label="비밀번호 확인"
           variant="standard"
@@ -93,17 +91,19 @@ function SignUp() {
           inputProps={{ minlength: 8 }}
           onChange={handleConfirmPassword}
         />
-        <Button variant="contained" type="submit">
+        <Button fullWidth variant="contained" type="submit">
           회원가입
         </Button>
+        <LinkStyle to="/auth/login">
+          <p>로그인 화면으로</p>
+        </LinkStyle>
       </Form>
-    </>
+    </Container>
   );
 }
 
 export default SignUp;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
+const ErrorSpan = styled.span`
+  color: red;
 `;
