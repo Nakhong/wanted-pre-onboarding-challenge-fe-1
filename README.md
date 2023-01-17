@@ -35,6 +35,7 @@
 - Todolist post api로직 리팩토링
 - update 함수 실행시 렌더링 버그 (렌더링 안하는 버그)
 - 전체 Page 디자인 변경
+- type 선언 중 any 사용 변경
 
 ### 5.실행 방법
 
