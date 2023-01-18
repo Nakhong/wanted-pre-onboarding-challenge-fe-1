@@ -1,12 +1,11 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTodo, deleteTodo, getTodos, updateTodos } from "../api";
-import TodoItem from "../components/TodoItem";
+import TodoItem from "../components/todo/TodoItem";
 import { Todo, todoItems } from "../types/type";
-import styled from "styled-components";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Form } from "../styles/FormStyled";
+import { Form, TodoContainer, TodosUl } from "../styles/FormStyled";
 
 function Todos() {
   const nav = useNavigate();
@@ -63,7 +62,7 @@ function Todos() {
   }, []);
 
   return (
-    <Container>
+    <TodoContainer>
       <div>
         <h1>Todo List</h1>
         <Button fullWidth onClick={handleLogout}>
@@ -91,11 +90,9 @@ function Todos() {
           fullWidth
           variant="standard"
         />
-        {/* <input ref={titleRef} type="text" id="todoInput" placeholder="할일" />
-        <input type="text" placeholder="자세한 내용" ref={contentsRef} /> */}
         <Button type="submit">추가</Button>
       </Form>
-      <Ul>
+      <TodosUl>
         {todolist.map((todo) => {
           return (
             <div>
@@ -110,23 +107,9 @@ function Todos() {
             </div>
           );
         })}
-      </Ul>
-    </Container>
+      </TodosUl>
+    </TodoContainer>
   );
 }
 
 export default Todos;
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Ul = styled.ul`
-  width: 500px;
-  padding: 0;
-  list-style: none;
-`;

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
 import FormDialog from "./FormDialog";
-import { todoItems } from "../types/type";
+import { todoItems } from "../../types/type";
 
 function TodoItem({
   content,

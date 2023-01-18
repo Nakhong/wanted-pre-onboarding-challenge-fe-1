@@ -27,4 +27,18 @@ const LinkStyle = styled(Link)`
   }
 `;
 
-export { Container, Form, ErrorMessage, LinkStyle };
+const TodoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TodosUl = styled.ul`
+  width: 500px;
+  padding: 0;
+  list-style: none;
+`;
+
+export { TodoContainer, TodosUl, Container, Form, ErrorMessage, LinkStyle };

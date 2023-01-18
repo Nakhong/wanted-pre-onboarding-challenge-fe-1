@@ -5,7 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { todoItems } from "../types/type";
+import { todoItems } from "../../types/type";
 
 export default function FormDialog(props: todoItems) {
   const [todoTitle, setTitle] = useState(props.title);

@@ -3,10 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { baseAxios } from "../api";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import styled from "styled-components";
 import { emailRegex } from "../util/Regex";
 import { formData } from "../types/type";
-import { Container, Form, LinkStyle } from "../styles/FormStyled";
+import { Container, ErrorMessage, Form, LinkStyle } from "../styles/FormStyled";
 
 function SignUp() {
   const nav = useNavigate();
@@ -61,9 +60,9 @@ function SignUp() {
           onChange={handleEmail}
         />
         {email.length > 0 && (
-          <ErrorSpan>
+          <ErrorMessage>
             {checkEmail === true ? "" : "올바른 이메일 형식이 아닙니다!"}
-          </ErrorSpan>
+          </ErrorMessage>
         )}
         <TextField
           fullWidth
@@ -86,7 +85,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
-const ErrorSpan = styled.span`
-  color: red;
-`;
