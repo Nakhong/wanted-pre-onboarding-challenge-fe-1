@@ -1,47 +1,29 @@
-import React, { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { baseAxios } from "../api";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { emailRegex } from "../util/Regex";
 import { formData } from "../types/type";
 import { Container, ErrorMessage, Form, LinkStyle } from "../styles/FormStyled";
+import useRegister from "../hooks/auth/userSignUp";
 
 function SignUp() {
-  const nav = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [checkEmail, setCheckEmail] = useState<boolean>(false);
+  const { registerRequest } = useRegister();
+  const isEmailValid = !emailRegex.test(email);
 
-  const onSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const Data: formData = {
-        email: email,
-        password: password,
-      };
-      await baseAxios
-        .post(`users/create`, Data)
-        .then((res) => {
-          alert(res.data.message);
-          nav("/auth/login");
-        })
-        .catch((e) => {
-          alert(e.response.data.details);
-        });
-    },
-    [email, password]
-  );
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const Data: formData = {
+      email: email,
+      password: password,
+    };
+    registerRequest(Data);
+  };
 
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailCur = e.target.value;
     setEmail(emailCur);
-
-    if (!emailRegex.test(emailCur)) {
-      setCheckEmail(false);
-    } else {
-      setCheckEmail(true);
-    }
   };
 
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,11 +41,11 @@ function SignUp() {
           variant="standard"
           onChange={handleEmail}
         />
-        {email.length > 0 && (
-          <ErrorMessage>
-            {checkEmail === true ? "" : "올바른 이메일 형식이 아닙니다!"}
-          </ErrorMessage>
-        )}
+        {email.length > 0
+          ? isEmailValid && (
+              <ErrorMessage>올바른 이메일 형식이 아닙니다!</ErrorMessage>
+            )
+          : ""}
         <TextField
           fullWidth
           id="standard-basic"

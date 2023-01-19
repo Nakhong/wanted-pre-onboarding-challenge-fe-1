@@ -1,35 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { Link, useNavigate } from "react-router-dom";
-import { baseAxios } from "../api";
 import TextField from "@mui/material/TextField";
 import { formData } from "../types/type";
 import { Container, Form, LinkStyle } from "../styles/FormStyled";
+import useLogin from "../hooks/auth/userLogin";
 
 function Login() {
-  const nav = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { loginRequest } = useLogin();
 
-  const onSubmit = useCallback(
-    async (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const Data: formData = {
-        email,
-        password,
-      };
-      await baseAxios
-        .post("/users/login", Data)
-        .then((res) => {
-          localStorage.setItem("token", res.data.token);
-          nav("/");
-        })
-        .catch((e) => {
-          alert(e.response.data.details);
-        });
-    },
-    [email, password]
-  );
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const Data: formData = {
+      email,
+      password,
+    };
+    loginRequest(Data);
+  };
 
   const handleId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
