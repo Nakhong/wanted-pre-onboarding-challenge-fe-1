@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { formData } from "../../types/type";
 import { useCallback } from "react";
-import { baseAxios } from "../../api";
+import { baseAxios } from "../../util/axios";
 
 const useRegister = () => {
   const navigate = useNavigate();

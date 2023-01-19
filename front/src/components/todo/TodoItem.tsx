@@ -1,18 +1,9 @@
-import React, { useCallback, useState } from "react";
-import Button from "@mui/material/Button";
+import React from "react";
 import styled from "styled-components";
 import FormDialog from "./FormDialog";
-import { todoItems } from "../../types/type";
+import { Todo } from "../../types/type";
 
-function TodoItem({
-  content,
-  title,
-  id,
-  onDelete,
-  onUpdate,
-  todoList,
-  setEdit,
-}: todoItems) {
+function TodoItem({ content, title, id }: Todo) {
   return (
     <Container>
       <Li>
@@ -20,15 +11,7 @@ function TodoItem({
           <span>{title}</span>
         </div>
         <div>
-          <FormDialog
-            id={id}
-            title={title}
-            content={content}
-            onUpdate={onUpdate}
-            todoList={todoList}
-            onDelete={onDelete}
-            setEdit={setEdit}
-          />
+          <FormDialog id={id} title={title} content={content} />
         </div>
       </Li>
     </Container>

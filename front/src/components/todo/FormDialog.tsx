@@ -1,13 +1,15 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { todoItems } from "../../types/type";
+import { Todo } from "../../types/type";
+import TodoMutation from "../../hooks/todo/mutation/mutation";
 
-export default function FormDialog(props: todoItems) {
+export default function FormDialog(props: Todo) {
+  const { deleteMutation, updateMutation } = TodoMutation();
   const [todoTitle, setTitle] = useState(props.title);
   const [todoContent, setContent] = useState(props.content);
   let titleRef = useRef<HTMLInputElement>(null);
@@ -28,18 +30,17 @@ export default function FormDialog(props: todoItems) {
         title: titleTodo,
         content: contentTodo,
       };
-      await props.onUpdate(todo);
       setOpen(false);
-      props.setEdit(true);
+      updateMutation(todo);
     },
-    [props.onUpdate]
+    []
   );
 
   const handleDelete = useCallback(() => {
     if (window.confirm("정말 삭제 하시겠습니까 ?")) {
-      props.onDelete(id);
+      deleteMutation(id);
     }
-  }, [id, props.onDelete]);
+  }, [id]);
 
   const handleClose = () => {
     setOpen(false);
