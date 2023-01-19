@@ -14,7 +14,7 @@
 ### 2. 프로젝트 기술스택
 
 프레임워크 : Create-React-App  
-라이브러리 : axios, react-router-dom, MUI, styled-components
+라이브러리 : axios, react-router-dom, MUI, styled-components, react-query
 
 ### 3. 프로젝트 소개
 
@@ -36,6 +36,16 @@
 - update 함수 실행시 렌더링 버그 (렌더링 안하는 버그)
 - 전체 Page 디자인 변경
 - type 선언 중 any 사용 변경
+
+  2023.01.19
+
+- 폴더 구조 변경
+- react-query로 변경
+- api 로직 hooks로 변경
+
+리펙토링 예정:
+
+- redux를 사용해서 클라이언트 상태관리 변경예정.
 
 ### 5.실행 방법
 
