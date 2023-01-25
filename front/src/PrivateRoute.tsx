@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 /* eslint-disable no-useless-escape */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -19,8 +19,8 @@ function PrivateRoute({
       <Outlet />
     );
   } else {
-    return isAuthenticated === null || isAuthenticated === "false" ? (
-      <Navigate to="/auth/login" />
+    return isAuthenticated === null || isAuthenticated === "ture" ? (
+      <Navigate to="/" />
     ) : (
       <Outlet />
     );

@@ -1,16 +1,14 @@
 import React, { useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import TodoItem from "../components/todo/TodoItem";
 import { Todo } from "../types/type";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Form, TodoContainer, TodosUl } from "../styles/FormStyled";
 import TodoMutation from "../hooks/todo/mutation/mutation";
-import useUserTodoList from "../hooks/todo/queries";
+import useUserTodoList from "../hooks/todo/queries/query";
 import { HandleLogout } from "../util/isLogout";
 
 function Todos() {
-  const nav = useNavigate();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentsRef = useRef<HTMLInputElement>(null);
   const { createMutations } = TodoMutation();

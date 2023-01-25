@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Todo } from "../../types/type";
 import TodoMutation from "../../hooks/todo/mutation/mutation";
 
-export default function FormDialog(props: Todo) {
+function FormDialog(props: Todo) {
   const { deleteMutation, updateMutation } = TodoMutation();
   const [todoTitle, setTitle] = useState(props.title);
   const [todoContent, setContent] = useState(props.content);
@@ -16,6 +16,7 @@ export default function FormDialog(props: Todo) {
   const contentsRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const id = props.id;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -99,3 +100,5 @@ export default function FormDialog(props: Todo) {
     </div>
   );
 }
+
+export default FormDialog;
